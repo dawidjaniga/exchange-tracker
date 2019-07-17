@@ -1,5 +1,12 @@
 import React from 'react'
+import Company from './../../components/company'
 
 export default function Compannies () {
-  return <h1>Companies</h1>
+  return (
+    <div>
+      <h1>Companies</h1>
+      <Company symbol='AAPL' />
+      <Company symbol='GOOG' />
+    </div>
+  )
 }
