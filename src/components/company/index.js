@@ -1,5 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Spin, Alert } from 'antd'
+import { useApi } from './../../hooks/api'
+import Trend from '../trend'
 
 const Wrapper = styled.div`
   margin: 2em;
@@ -21,6 +24,8 @@ const Name = styled.h3`
 
 const Logo = styled.img`
   margin-right: 0.5em;
+  width: 64px;
+  object-fit: contain;
 `
 
 const Symbol = styled.div`
@@ -31,7 +36,7 @@ const Website = styled.div`
   font-size: 0.8em;
 `
 
-const Country = styled.div`
+const Region = styled.div`
   font-size: 0.8em;
 `
 
@@ -45,35 +50,71 @@ const Value = styled.div`
   font-weight: bold;
 `
 
-const Trend = styled.div`
-  margin: 0 0.5em;
-  font-size: 0.8em;
-`
-
 const ClosedDate = styled.div`
   font-size: 0.8em;
 `
 
+const AlertWrapper = styled(Alert)`
+  margin: auto;
+`
+
 export default function Company ({ symbol }) {
+  const [{ data, error, isLoading }] = useApi(symbol)
+  const {
+    name,
+    region,
+    marketOpen,
+    marketClose,
+    timezone,
+    currency,
+    price,
+    change,
+    closeDate,
+    trend,
+    logo,
+    domain
+  } = data
+
   return (
     <Wrapper>
-      <Logo src='https://picsum.photos/64' />
-      <Container>
-        <Row>
-          <Name>Name</Name>
-          <Symbol>{symbol}</Symbol>
-          <Website>Website</Website>
-        </Row>
-        <Row>
-          <Country>Country</Country>
-          <DateTime>Time 09:30 - 16:00 UTC-5</DateTime>
-        </Row>
-        <Row>
-          <Value>150.45 USD</Value>
-          <Trend>+0.70 (4.33%)</Trend>
-          <ClosedDate>Closed: 2019-07-17</ClosedDate>
-        </Row>
-      </Container>
+      {error ? (
+        <AlertWrapper
+          message='Third Party API Error'
+          description={error}
+          type='error'
+          showIcon
+        />
+      ) : (
+        <React.Fragment>
+          {isLoading ? (
+            <Spin />
+          ) : (
+            <React.Fragment>
+              <Logo src={logo} />
+              <Container>
+                <Row>
+                  <Name>{name}</Name>
+                  <Symbol>{symbol}</Symbol>
+                  <Website>{domain}</Website>
+                </Row>
+                <Row>
+                  <Region>{region}</Region>
+                  <DateTime>
+                    {marketOpen} - {marketClose} {timezone}
+                  </DateTime>
+                </Row>
+                <Row>
+                  <Value>
+                    {price} {currency}
+                  </Value>
+                  <Trend change={change} trend={trend} />
+                  <ClosedDate>Closed: {closeDate}</ClosedDate>
+                </Row>
+              </Container>
+            </React.Fragment>
+          )}
+        </React.Fragment>
+      )}
     </Wrapper>
   )
 }
