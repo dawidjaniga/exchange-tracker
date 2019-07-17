@@ -59,7 +59,7 @@ const AlertWrapper = styled(Alert)`
 `
 
 export default function Company ({ symbol }) {
-  const [{ data, error, isLoading }] = useApi(symbol)
+  const { data, error, isLoading } = useApi(symbol)
   const {
     name,
     region,

@@ -1,32 +1,41 @@
 import { useReducer, useEffect } from 'react'
 import axios from 'axios'
+import { FETCH_INIT, FETCH_SUCCESS, FETCH_FAILURE } from './../actionTypes'
+import { createReducer } from 'redux-create-reducer'
 const API_KEY = 'n2456mas'
 
-function reducer (state, action) {
-  switch (action.type) {
-    case 'FETCH_INIT':
+const initialState = {
+  isLoading: true,
+  error: '',
+  data: {}
+}
+const reducer = createReducer(
+  {},
+  {
+    [FETCH_INIT] (state, action) {
       return {
         ...state,
         isLoading: true,
         error: ''
       }
-    case 'FETCH_SUCCESS':
+    },
+    [FETCH_SUCCESS] (state, action) {
       return {
         ...state,
         isLoading: false,
         error: '',
         data: action.data
       }
-    case 'FETCH_FAILURE':
+    },
+    [FETCH_FAILURE] (state, action) {
       return {
         ...state,
         isLoading: false,
         error: action.error
       }
-    default:
-      throw new Error('Company Reducer: Unknown action')
+    }
   }
-}
+)
 
 function removeSuffix (string) {
   return string.replace(/\s+[\w.]*$/, '')
@@ -85,18 +94,14 @@ async function getCompanyLogoAndDomain (name) {
 }
 
 export function useApi (symbol) {
-  const [state, dispatch] = useReducer(reducer, {
-    isLoading: true,
-    error: '',
-    data: {}
-  })
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(
     () => {
       let didCancel = false
 
       const fetchData = async () => {
-        dispatch({ type: 'FETCH_INIT' })
+        dispatch({ type: FETCH_INIT })
 
         try {
           const operationInfo = await getCompanyOperatingTimeAndPlace(symbol)
@@ -112,13 +117,13 @@ export function useApi (symbol) {
 
           if (!didCancel) {
             dispatch({
-              type: 'FETCH_SUCCESS',
+              type: FETCH_SUCCESS,
               data: result
             })
           }
         } catch (error) {
           if (!didCancel) {
-            dispatch({ type: 'FETCH_FAILURE', error: error.message })
+            dispatch({ type: FETCH_FAILURE, error: error.message })
           }
         }
       }
@@ -132,5 +137,5 @@ export function useApi (symbol) {
     [symbol]
   )
 
-  return [state]
+  return state
 }

@@ -9230,6 +9230,11 @@ recursive-readdir@2.2.2:
   dependencies:
     minimatch "3.0.4"
 
+redux-create-reducer@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/redux-create-reducer/-/redux-create-reducer-2.0.0.tgz#1a88a63b567ae73ef435007c26a8cf0897e3802c"
+  integrity sha512-WnTUwIKuvNWlupCRMnIi040mMqA9ALDGuUNUOSPlpz5eUP7L5AJ5/rqMXVdvOhIeQtI8ubw8nFg2zAjlrG7IIg==
+
 regenerate-unicode-properties@^8.0.2:
   version "8.0.2"
   resolved "https://registry.yarnpkg.com/regenerate-unicode-properties/-/regenerate-unicode-properties-8.0.2.tgz#7b38faa296252376d363558cfbda90c9ce709662"
