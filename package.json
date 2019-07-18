@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "repository": "git@github.com:dawidjaniga/exchange-tracker.git",
   "author": "Dawid Janiga <dawidjaniga@gmail.com>",
+  "homepage": "http://dawidjaniga.pl/stock-tracker",
   "license": "MIT",
   "dependencies": {
     "antd": "3.20.3",
