@@ -65,7 +65,7 @@ async function getCompanyLogoAndDomain (name) {
       name
     )}`
   )
-  const { logo, domain } = response.data[0]
+  const { logo, domain } = response.data[0] || {}
   return { logo, domain }
 }
 

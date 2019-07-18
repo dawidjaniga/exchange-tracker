@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Spin, Alert, Icon } from 'antd'
 import { useApi } from '../../hooks/api'
 import Trend from '../trend'
+import placeholder from './assets/placeholder.png'
 
 const DeleteIcon = styled(Icon)`
   position: absolute;
@@ -111,7 +112,7 @@ export default function Company ({ symbol, deleteCompany }) {
             </LoadingWrapper>
           ) : (
             <React.Fragment>
-              <Logo src={logo} />
+              <Logo src={logo || placeholder} />
               <div>
                 <Row>
                   <Name>{name}</Name>
