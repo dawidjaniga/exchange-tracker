@@ -15,7 +15,7 @@
 Project is based on [Create React App](https://github.com/facebook/create-react-app). Please follow CRA Guides for itemized instructions.
 
 ## Architecture
-.
+`
 ├── LICENSE
 ├── README.md
 ├── build                                       -------- production ready bundle
@@ -69,7 +69,7 @@ Project is based on [Create React App](https://github.com/facebook/create-react-
 └── yarn.lock
 
 18 directories, 34 files
-
+`
 
 ## Install
 ```sh
