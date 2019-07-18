@@ -77,10 +77,18 @@ yarn install
 ```
 
 ## Usage
-
+For development:
 ```sh
 yarn start
 ```
+In development process.env is resolved based on: .env or .env.local
+
+For production:
+
+```sh
+yarn build
+```
+In build process we can use .env or .env.production hosted on build server, or - easier to mantain - use "Env settings" provider from CI server.
 
 ## Run tests
 
