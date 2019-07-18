@@ -29,7 +29,7 @@ const StyledFooter = styled(Footer)`
 
 function App () {
   return (
-    <Router>
+    <Router basename='/stock-tracker'>
       <StyledLayout className='layout'>
         <Header />
         <ContentWrapper>
