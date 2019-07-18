@@ -15,7 +15,7 @@
 Project is based on [Create React App](https://github.com/facebook/create-react-app). Please follow CRA Guides for itemized instructions.
 
 ## Architecture
-`
+```
 ├── LICENSE
 ├── README.md
 ├── build                                       -------- production ready bundle
@@ -69,7 +69,7 @@ Project is based on [Create React App](https://github.com/facebook/create-react-
 └── yarn.lock
 
 18 directories, 34 files
-`
+```
 
 ## Install
 ```sh
@@ -90,9 +90,9 @@ yarn test
 
 ### Known issues
 Multiple refresh cause running out of free quota, with following statement as a response. Waiting for a minute resolves problem.
-`
+```
 Thank you for using Alpha Vantage! Our standard API call frequency is 5 calls per minute and 500 calls per day. Please visit https://www.alphavantage.co/premium/ if you would like to target a higher API call frequency.
-`
+```
 
 ## Author
 
