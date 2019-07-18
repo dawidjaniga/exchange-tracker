@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to exchange-tracker 👋</h1>
+<h1 align="center">Welcome to stock-tracker 👋</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/npm/v/exchange-tracker.svg">
   <a href="https://twitter.com/dawidjaniga">
