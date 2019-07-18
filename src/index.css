@@ -1,6 +1,11 @@
 :root {
+  --page-width: 900px;
+
+  --color-white: #fff;
+  --color-light-gray: #00000017;
   --color-green: #00CC00;
   --color-red: #FF0000;
+  
 }
 
 body {

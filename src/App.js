@@ -1,56 +1,44 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import { Layout, Menu } from 'antd'
-import 'antd/dist/antd.css'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import styled from 'styled-components'
+import { Layout } from 'antd'
+import 'antd/dist/antd.css'
 
 import Companies from './views/companies'
 import TrackCompany from './views/track-company'
+import Header from './components/header'
 
-const { Header, Content, Footer } = Layout
+const { Content, Footer } = Layout
 
-const Logo = styled.h1`
-  color: #fff;
-  float: left;
-  margin: 0;
+const StyledLayout = styled(Layout)`
+  min-height: 100vh;
 `
 
 const ContentWrapper = styled(Content)`
   padding: 2em;
-  margin: 2em;
-  background: #fff;
-  box-shadow: 0px 6px 30px #00000017;
+  background: var(--color-white);
+  box-shadow: 0px 6px 30px var(--color-light-gray);
+  max-width: var(--page-width);
+  margin: 2em auto;
+  width: 100%;
+`
+
+const StyledFooter = styled(Footer)`
+  margin: auto;
 `
 
 function App () {
   return (
     <Router>
-      <Layout className='layout'>
-        <Header>
-          <Logo>Stock Tracker</Logo>
-          <Menu
-            theme='dark'
-            mode='horizontal'
-            defaultSelectedKeys={['2']}
-            style={{ lineHeight: '64px' }}
-          >
-            <Menu.Item key='1'>
-              <Link to='/track-company/'>Track company</Link>
-            </Menu.Item>
-            <Menu.Item key='2'>
-              <Link to='/companies/'>Companies</Link>
-            </Menu.Item>
-          </Menu>
-        </Header>
+      <StyledLayout className='layout'>
+        <Header />
         <ContentWrapper>
           <Route path='/' exact component={Companies} />
           <Route path='/companies' exact component={Companies} />
           <Route path='/track-company' component={TrackCompany} />
         </ContentWrapper>
-        <Footer style={{ textAlign: 'center' }}>
-          Stock Tracker ©2019 Created by Dawid Janiga
-        </Footer>
-      </Layout>
+        <StyledFooter>Stock Tracker ©2019 Created by Dawid Janiga</StyledFooter>
+      </StyledLayout>
     </Router>
   )
 }

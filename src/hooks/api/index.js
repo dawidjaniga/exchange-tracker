@@ -1,51 +1,24 @@
 import { useReducer, useEffect } from 'react'
 import axios from 'axios'
-import { FETCH_INIT, FETCH_SUCCESS, FETCH_FAILURE } from './../actionTypes'
-import { createReducer } from 'redux-create-reducer'
-const API_KEY = 'n2456mas'
+import {
+  FETCH_INIT,
+  FETCH_SUCCESS,
+  FETCH_FAILURE
+} from '../../constants/actionTypes'
+import reducer from './reducer'
 
+const API_KEY = process.env.REACT_APP_ALPHAVANTAGE_API_KEY
 const initialState = {
   isLoading: true,
   error: '',
   data: {}
-}
-const reducer = createReducer(
-  {},
-  {
-    [FETCH_INIT] (state, action) {
-      return {
-        ...state,
-        isLoading: true,
-        error: ''
-      }
-    },
-    [FETCH_SUCCESS] (state, action) {
-      return {
-        ...state,
-        isLoading: false,
-        error: '',
-        data: action.data
-      }
-    },
-    [FETCH_FAILURE] (state, action) {
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error
-      }
-    }
-  }
-)
-
-function removeSuffix (string) {
-  return string.replace(/\s+[\w.]*$/, '')
 }
 
 async function getCompanyOperatingTimeAndPlace (symbol) {
   const response = await axios(
     `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${symbol}&apikey=${API_KEY}`
   )
-  const bestMatch = response.data.bestMatches[0]
+  const bestMatches = response.data.bestMatches
   const {
     '2. name': name,
     '4. region': region,
@@ -53,30 +26,35 @@ async function getCompanyOperatingTimeAndPlace (symbol) {
     '6. marketClose': marketClose,
     '7. timezone': timezone,
     '8. currency': currency
-  } = bestMatch
+  } = bestMatches[0] || {}
 
-  return { name, region, marketOpen, marketClose, timezone, currency }
+  if (bestMatches.length) {
+    return { name, region, marketOpen, marketClose, timezone, currency }
+  } else {
+    throw Error(
+      'There is no data for provided company symbol. Maybe delete it and try again?'
+    )
+  }
 }
 
 async function getCompanyFinanceValues (symbol) {
   const response = await axios(
     `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${API_KEY}`
   )
+  /* Alphavantage API is REST incompatible and returns 200 Status Code on errors,
+   * so we have to handle it ourselves. Common problem is their quota - limited API calls
+   * per minute and day.
+   */
+  const error = response.data.Note
+  if (error) {
+    throw Error(error)
+  }
   const {
     '05. price': price,
     '09. change': change,
     '07. latest trading day': closeDate,
     '10. change percent': trend
   } = response.data['Global Quote']
-  const error = response.data.Note
-
-  /* Alphavantage API is REST incompatible and returns 200 Status Code on errors,
-   * so we have to handle it ourselves. Common problem is their quota - limited API calls
-   * per minute and day.
-   */
-  if (error) {
-    throw Error(response.data.Note)
-  }
 
   return { price, change, closeDate, trend }
 }
@@ -87,9 +65,7 @@ async function getCompanyLogoAndDomain (name) {
       name
     )}`
   )
-
   const { logo, domain } = response.data[0]
-
   return { logo, domain }
 }
 
@@ -138,4 +114,8 @@ export function useApi (symbol) {
   )
 
   return state
+}
+
+function removeSuffix (string) {
+  return string.replace(/\s+[\w.]*$/, '')
 }
