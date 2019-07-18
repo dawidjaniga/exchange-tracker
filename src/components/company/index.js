@@ -21,6 +21,7 @@ const Wrapper = styled.div`
   &:hover ${DeleteIcon} {
     opacity: 1;
   }
+  font-size: 0.8em;
 `
 
 const LoadingWrapper = styled.div`
@@ -49,28 +50,16 @@ const Logo = styled.img`
 
 const Symbol = styled.div`
   margin: 0 0.5em;
-`
-
-const Website = styled.div`
-  font-size: 0.8em;
-`
-
-const Region = styled.div`
-  font-size: 0.8em;
+  font-size: 1em;
 `
 
 const DateTime = styled.div`
   margin: 0 0.5em;
-  font-size: 0.8em;
 `
 
-const Value = styled.div`
-  font-size: 0.8em;
+const Price = styled.div`
   font-weight: bold;
-`
-
-const ClosedDate = styled.div`
-  font-size: 0.8em;
+  margin-right: 0.2em;
 `
 
 const AlertWrapper = styled(Alert)`
@@ -117,7 +106,7 @@ export default function Company ({ symbol, deleteCompany }) {
                 <Row>
                   <Name>{name}</Name>
                   <Symbol>{symbol}</Symbol>
-                  <Website>
+                  <div>
                     <a
                       href={`http://${domain}`}
                       rel='noopener noreferrer'
@@ -125,20 +114,19 @@ export default function Company ({ symbol, deleteCompany }) {
                     >
                       {domain}
                     </a>
-                  </Website>
+                  </div>
                 </Row>
                 <Row>
-                  <Region>{region}</Region>
+                  <div>{region}</div>
                   <DateTime>
                     {marketOpen} - {marketClose} {timezone}
                   </DateTime>
                 </Row>
                 <Row>
-                  <Value>
-                    {price} {currency}
-                  </Value>
+                  <Price>{parseFloat(price).toFixed(2)}</Price>
+                  {currency}
                   <Trend change={change} trend={trend} />
-                  <ClosedDate>Closed: {closeDate}</ClosedDate>
+                  <div>Closed: {closeDate}</div>
                 </Row>
               </div>
             </React.Fragment>
